@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using Spectre.Console;
 using Bogus;
-using System.Reflection.Emit;
-using System.ComponentModel;
+using System.ComponentModel.Design;
+using Bogus.DataSets;
+
 
 namespace CarStats
 {
@@ -12,11 +13,21 @@ namespace CarStats
         {
            Randomizer.Seed = new Random(int.Parse(args[0]));
            Faker faker = new Faker();
-           BarChart bc = new BarChart();
-           bc.AddItem("Ferrari", 14, faker.Random.Number(1, 20));
-           bc.AddItem("Lamborghini", 4, faker.Random.Number(1, 20));
-           bc.AddItem("Smart", 4, faker.Random.Number(1, 20));
 
+           BarChart bc = new BarChart();
+
+           string car = new Faker().Vehicle.Manufacturer();
+           int count = new Faker().Random.Number(1, 20);
+
+            AnsiConsole.Write(bc
+            .Label("Car sales")
+            .CenterLabel()
+            .AddItem(car, count)
+            .AddItem(faker.Vehicle.Manufacturer(), faker.Random.Number(1, 20))
+            .AddItem(faker.Vehicle.Manufacturer(), faker.Random.Number(1, 20))
+           );
+
+           
         }
     }
 }
